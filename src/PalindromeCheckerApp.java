@@ -1,21 +1,28 @@
-public class UseCase1PalindromeCheckerApp {
+/**
+ * UC2: Print a Hardcoded Palindrome Result
+ * This class validates a pre-defined string to check if it reads the same backwards.
+ */
+public class UseCase2PalindromeCheckerApp {
 
-    // The main method: Entry point of the application
     public static void main(String[] args) {
+        // String Literal: The word to be checked
+        String original = "madam";
+        String reverse = "";
 
-        // Defining application details
-        String appName = "Palindrome Checker Application";
-        String version = "v1.0.0";
+        // Logic: Building the reversed string using a loop
+        // We start from the last character and move to the first
+        for (int i = original.length() - 1; i >= 0; i--) {
+            reverse += original.charAt(i);
+        }
 
-        // Displaying the Welcome Message and App Details
-        System.out.println("========================================");
-        System.out.println("    Welcome to the " + appName);
-        System.out.println("========================================");
-        System.out.println("Version: " + version);
-        System.out.println("Status: System Initialized Successfully.");
-        System.out.println("----------------------------------------");
+        System.out.println("Checking word: " + original);
+        System.out.println("Reversed word: " + reverse);
 
-        // The program would naturally proceed to the next UC or exit here
-        System.out.println("Ready for palindrome validation...");
+        // Conditional Statement: if-else to compare strings
+        if (original.equals(reverse)) {
+            System.out.println("Result: The string is a Palindrome.");
+        } else {
+            System.out.println("Result: The string is NOT a Palindrome.");
+        }
     }
 }
