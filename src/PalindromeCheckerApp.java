@@ -1,51 +1,70 @@
+import java.util.*;
+
 /**
- * Service class that encapsulates the Palindrome logic.
- * This demonstrates Encapsulation and Reusability.
+ * Strategy Interface: Defines the contract for all palindrome algorithms.
  */
-class PalindromeService {
+interface PalindromeStrategy {
+    boolean isValid(String input);
+}
 
-    /**
-     * Checks if a string is a palindrome.
-     * Logic is hidden from the user of the class (Abstraction).
-     */
-    public boolean check(String input) {
-        if (input == null || input.isEmpty()) {
-            return false;
-        }
+/**
+ * Concrete Strategy 1: Using a Stack (LIFO)
+ */
+class StackStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Stack<Character> stack = new Stack<>();
+        String clean = input.toLowerCase().replaceAll("[^a-z0-9]", "");
+        for (char c : clean.toCharArray()) stack.push(c);
 
-        // Normalize string inside the service
-        String clean = input.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+        StringBuilder reversed = new StringBuilder();
+        while (!stack.isEmpty()) reversed.append(stack.pop());
 
-        int left = 0;
-        int right = clean.length() - 1;
+        return clean.equals(reversed.toString());
+    }
+}
 
-        while (left < right) {
-            if (clean.charAt(left) != clean.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
+/**
+ * Concrete Strategy 2: Using a Deque (Two-Way)
+ */
+class DequeStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Deque<Character> deque = new ArrayDeque<>();
+        String clean = input.toLowerCase().replaceAll("[^a-z0-9]", "");
+        for (char c : clean.toCharArray()) deque.addLast(c);
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) return false;
         }
         return true;
     }
 }
 
 /**
- * UC11: Object-Oriented Palindrome Service
- * The main application class responsible for User Interaction.
+ * Context Class: Uses a strategy to perform the check.
  */
-public class UseCase11PalindromeCheckerApp {
+class PalindromeContext {
+    private PalindromeStrategy strategy;
 
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean executeStrategy(String input) {
+        return strategy.isValid(input);
+    }
+}
+
+public class UseCase12PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Instantiate the Service Object
-        PalindromeService service = new PalindromeService();
+        PalindromeContext context = new PalindromeContext();
+        String testPhrase = "Race Car";
 
-        String testWord = "Madam, I'm Adam";
+        // Runtime Decision: Using Stack Strategy
+        context.setStrategy(new StackStrategy());
+        System.out.println("Using Stack Strategy: " + context.executeStrategy(testPhrase));
 
-        // Calling the encapsulated method
-        boolean result = service.check(testWord);
-
-        System.out.println("Testing Service with: " + testWord);
-        System.out.println("Is Palindrome? " + (result ? "YES" : "NO"));
+        // Runtime Switch: Using Deque Strategy
+        context.setStrategy(new DequeStrategy());
+        System.out.println("Using Deque Strategy: " + context.executeStrategy(testPhrase));
     }
 }
