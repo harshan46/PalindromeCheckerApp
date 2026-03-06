@@ -1,48 +1,51 @@
 /**
- * UC10: Case-Insensitive & Space-Ignored Palindrome
- * This class demonstrates string normalization (preprocessing) to handle
- * real-world sentences and phrases.
+ * Service class that encapsulates the Palindrome logic.
+ * This demonstrates Encapsulation and Reusability.
  */
-public class UseCase10PalindromeCheckerApp {
-
-    public static void main(String[] args) {
-        // A classic sentential palindrome
-        String rawInput = "A man a plan a canal Panama";
-
-        System.out.println("Raw Input: \"" + rawInput + "\"");
-
-        // Step 1: Normalization (Preprocessing)
-        // .toLowerCase() handles Case-Insensitivity
-        // .replaceAll("[^a-zA-Z0-9]", "") removes spaces and punctuation using Regex
-        String processed = rawInput.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
-
-        System.out.println("Normalized: \"" + processed + "\"");
-
-        // Step 2: Apply Two-Pointer Logic (from UC4)
-        boolean isPalindrome = checkPalindrome(processed);
-
-        // Step 3: Display Result
-        if (isPalindrome) {
-            System.out.println("Result: Success! It is a Palindrome.");
-        } else {
-            System.out.println("Result: Failure! It is NOT a Palindrome.");
-        }
-    }
+class PalindromeService {
 
     /**
-     * Reusable two-pointer logic for normalized strings.
+     * Checks if a string is a palindrome.
+     * Logic is hidden from the user of the class (Abstraction).
      */
-    public static boolean checkPalindrome(String str) {
+    public boolean check(String input) {
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+
+        // Normalize string inside the service
+        String clean = input.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+
         int left = 0;
-        int right = str.length() - 1;
+        int right = clean.length() - 1;
 
         while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
+            if (clean.charAt(left) != clean.charAt(right)) {
                 return false;
             }
             left++;
             right--;
         }
         return true;
+    }
+}
+
+/**
+ * UC11: Object-Oriented Palindrome Service
+ * The main application class responsible for User Interaction.
+ */
+public class UseCase11PalindromeCheckerApp {
+
+    public static void main(String[] args) {
+        // Instantiate the Service Object
+        PalindromeService service = new PalindromeService();
+
+        String testWord = "Madam, I'm Adam";
+
+        // Calling the encapsulated method
+        boolean result = service.check(testWord);
+
+        System.out.println("Testing Service with: " + testWord);
+        System.out.println("Is Palindrome? " + (result ? "YES" : "NO"));
     }
 }
