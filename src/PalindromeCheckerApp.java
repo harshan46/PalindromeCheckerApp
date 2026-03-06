@@ -1,28 +1,32 @@
 /**
- * UC2: Print a Hardcoded Palindrome Result
- * This class validates a pre-defined string to check if it reads the same backwards.
+ * UC3: Palindrome Check Using String Reverse
+ * This version manually reverses the string character by character to
+ * demonstrate loop control and the behavior of the String class.
  */
-public class UseCase2PalindromeCheckerApp {
+public class UseCase3PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        // String Literal: The word to be checked
-        String original = "madam";
-        String reverse = "";
+        // Step 1: Initialize the original string
+        String original = "level";
+        String reversed = "";
 
-        // Logic: Building the reversed string using a loop
-        // We start from the last character and move to the first
+        System.out.println("Original String: " + original);
+
+        // Step 2: Loop through the original string backwards
+        // Index starts at (length - 1) and goes down to 0
         for (int i = original.length() - 1; i >= 0; i--) {
-            reverse += original.charAt(i);
+            // String Concatenation: Creating a new string object in each iteration
+            reversed = reversed + original.charAt(i);
         }
 
-        System.out.println("Checking word: " + original);
-        System.out.println("Reversed word: " + reverse);
+        System.out.println("Reversed String: " + reversed);
 
-        // Conditional Statement: if-else to compare strings
-        if (original.equals(reverse)) {
-            System.out.println("Result: The string is a Palindrome.");
+        // Step 3: Comparison using .equals()
+        // Note: '==' compares memory addresses; .equals() compares the actual text
+        if (original.equalsIgnoreCase(reversed)) {
+            System.out.println("Status: The word is a Palindrome.");
         } else {
-            System.out.println("Result: The string is NOT a Palindrome.");
+            System.out.println("Status: The word is NOT a Palindrome.");
         }
     }
 }
