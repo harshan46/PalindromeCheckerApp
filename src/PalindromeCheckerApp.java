@@ -1,49 +1,46 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * UC6: Queue + Stack Based Palindrome Check
- * Demonstrates the behavioral difference between FIFO (Queue) and LIFO (Stack).
+ * UC7: Deque-Based Optimized Palindrome Checker
+ * Uses a Double-Ended Queue to compare characters from both ends simultaneously.
  */
-public class UseCase6PalindromeCheckerApp {
+public class UseCase7PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        String input = "radar";
+        String input = "deified";
 
-        // Step 1: Initialize Data Structures
-        Stack<Character> stack = new Stack<>();          // LIFO
-        Queue<Character> queue = new LinkedList<>();     // FIFO (using LinkedList implementation)
+        // Step 1: Initialize the Deque
+        // ArrayDeque is a highly efficient implementation of the Deque interface
+        Deque<Character> deque = new ArrayDeque<>();
 
-        // Step 2: Load characters into both structures
+        // Step 2: Insert all characters into the Deque
         for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            stack.push(c);   // Push to Stack
-            queue.add(c);    // Enqueue to Queue
+            deque.addLast(input.charAt(i));
         }
 
         boolean isPalindrome = true;
 
-        // Step 3: Compare Dequeue (FIFO) vs Pop (LIFO)
-        // Queue returns 'r' (first in), Stack returns 'r' (last in)
-        while (!stack.isEmpty()) {
-            char fromStack = stack.pop();
-            char fromQueue = queue.poll();
+        // Step 3: Compare and Remove from both ends
+        // We continue as long as there is more than 1 character to compare
+        while (deque.size() > 1) {
+            char front = deque.removeFirst();
+            char rear = deque.removeLast();
 
-            if (fromStack != fromQueue) {
+            if (front != rear) {
                 isPalindrome = false;
                 break;
             }
         }
 
         // Step 4: Display Result
-        System.out.println("Analyzing: " + input);
-        System.out.println("Data Structures Used: Stack (LIFO) & Queue (FIFO)");
+        System.out.println("Checking: " + input);
+        System.out.println("Method: Deque (Double-Ended Queue) Comparison");
 
         if (isPalindrome) {
-            System.out.println("Result: The word is a Palindrome.");
+            System.out.println("Result: Success! It is a Palindrome.");
         } else {
-            System.out.println("Result: The word is NOT a Palindrome.");
+            System.out.println("Result: Failure! It is NOT a Palindrome.");
         }
     }
 }
