@@ -1,41 +1,49 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
- * UC5: Stack-Based Palindrome Checker
- * This class uses the Stack data structure (LIFO) to reverse a string
- * and validate if it is a palindrome.
+ * UC6: Queue + Stack Based Palindrome Check
+ * Demonstrates the behavioral difference between FIFO (Queue) and LIFO (Stack).
  */
-public class UseCase5PalindromeCheckerApp {
+public class UseCase6PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        // Step 1: Initialize the input string
-        String input = "noon";
+        String input = "radar";
 
-        // Step 2: Create a Stack of Characters
-        // The Stack will hold each character of the input string
-        Stack<Character> stack = new Stack<>();
+        // Step 1: Initialize Data Structures
+        Stack<Character> stack = new Stack<>();          // LIFO
+        Queue<Character> queue = new LinkedList<>();     // FIFO (using LinkedList implementation)
 
-        // Step 3: Push Operation
-        // Add each character of the string into the stack
+        // Step 2: Load characters into both structures
         for (int i = 0; i < input.length(); i++) {
-            stack.push(input.charAt(i));
+            char c = input.charAt(i);
+            stack.push(c);   // Push to Stack
+            queue.add(c);    // Enqueue to Queue
         }
 
-        // Step 4: Pop and Reconstruct
-        // Since Stack is LIFO, popping characters reverses the string
-        String reversedInput = "";
+        boolean isPalindrome = true;
+
+        // Step 3: Compare Dequeue (FIFO) vs Pop (LIFO)
+        // Queue returns 'r' (first in), Stack returns 'r' (last in)
         while (!stack.isEmpty()) {
-            reversedInput += stack.pop();
+            char fromStack = stack.pop();
+            char fromQueue = queue.poll();
+
+            if (fromStack != fromQueue) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // Step 5: Display and Compare
-        System.out.println("Input String: " + input);
-        System.out.println("Reversed via Stack: " + reversedInput);
+        // Step 4: Display Result
+        System.out.println("Analyzing: " + input);
+        System.out.println("Data Structures Used: Stack (LIFO) & Queue (FIFO)");
 
-        if (input.equalsIgnoreCase(reversedInput)) {
-            System.out.println("Result: Success! It is a Palindrome.");
+        if (isPalindrome) {
+            System.out.println("Result: The word is a Palindrome.");
         } else {
-            System.out.println("Result: Failure! It is NOT a Palindrome.");
+            System.out.println("Result: The word is NOT a Palindrome.");
         }
     }
 }
